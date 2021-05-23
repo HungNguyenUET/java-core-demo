@@ -17,4 +17,14 @@ public class Box<T, E> {
         return e;
     }
 
+    //Bounded types parameters
+    public <U extends Number> void inspect(U u) {
+        System.out.println("T Class name: " + t.getClass().getName());
+        System.out.println("U Class name: " + u.getClass().getName());
+    }
+
+    //Multiple bounded
+    public <E extends A & B1 & B2> void demo() {
+
+    }
 }

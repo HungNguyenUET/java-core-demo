@@ -24,6 +24,11 @@ public class GenericsDemo {
         Pair<Integer, String> p1 = new OrderedPair<>(1, "apple");
         Pair<Integer, String> p2 = new OrderedPair<>(2, "Amazon");
         Utils.compare(p1, p2);
+
+        //Bounded types parameter
+        Box<Long, String> box5 = new Box<>();
+        box5.setT(0L);
+        box5.inspect(10);
     }
 
 }
