@@ -21,7 +21,6 @@ public class SheepManager {
         try {
             service = Executors.newFixedThreadPool(20);
             SheepManager manager = new SheepManager();
-
             for (int i = 0; i < 10; i++) {
                 service.submit(() -> manager.incrementAndReport());
             }
