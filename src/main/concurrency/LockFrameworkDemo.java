@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class LockFrameworkDemo {
     public static void main(String[] args) {
-        demo();
+        demoTryLock2();
     }
 
     public static void demo() {
@@ -61,6 +61,47 @@ public class LockFrameworkDemo {
             System.out.println("ERROR");
         } finally {
             service.shutdown();
+        }
+    }
+
+    public static void demoTryLock() {
+        Lock lock = new ReentrantLock();
+        new Thread(() -> printMessage(lock)).start();
+        if (lock.tryLock()) {
+            try {
+                System.out.println("Lock obtained, entering protected code");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            System.out.println("Unable to acquire lock, doing something else");
+        }
+    }
+
+    public static void printMessage(Lock lock) {
+        try {
+            lock.lock();
+            Thread.sleep(3000);
+            System.out.println("Locking by printMessage");
+        } catch (Exception e){
+            System.out.println("ERROR sleep");
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private static void demoTryLock2() {
+        Lock lock = new ReentrantLock();
+//        lock.lock();
+
+        if (lock.tryLock()) {
+            try {
+                System.out.println("Lock obtained, entering protected code");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            System.out.println("Unable to acquire lock, doing something else");
         }
     }
 }
