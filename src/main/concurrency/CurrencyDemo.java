@@ -7,7 +7,7 @@ public class CurrencyDemo {
     private static int count = 0;
 
     public static void main(String[] args) {
-        testAvailableProcessors();
+        synchronizedDemo();
     }
 
     private static void testAvailableProcessors() {
@@ -89,6 +89,19 @@ public class CurrencyDemo {
             System.out.println("Error get results");
         }
 
+        System.out.println("end");
+    }
+
+    private static void synchronizedDemo() {
+        final Object lockObj = new Object();
+
+        synchronized (lockObj) {
+            System.out.println("Locked");
+            synchronized (lockObj) {
+                System.out.println("It's not lock");
+            }
+            System.out.println("After lock");
+        }
         System.out.println("end");
     }
 }

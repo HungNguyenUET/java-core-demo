@@ -2,12 +2,13 @@ package main.concurrency;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class LockFrameworkDemo {
     public static void main(String[] args) {
-        demoTryLock2();
+        demoTryLockTimeout();
     }
 
     public static void demo() {
@@ -103,5 +104,33 @@ public class LockFrameworkDemo {
         } else {
             System.out.println("Unable to acquire lock, doing something else");
         }
+    }
+
+    private static void demoTryLockTimeout() {
+        Lock lock = new ReentrantLock();
+        new Thread(() -> {
+            printMessage(lock);
+        }).start();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (lock.tryLock(10, TimeUnit.SECONDS)) {
+                try {
+                    System.out.println("Lock obtained, entering protected code");
+                } finally {
+                    lock.unlock();
+                }
+            } else {
+                System.out.println("Unable to acquire lock, doing something else");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }
